@@ -3,7 +3,7 @@ run-name: ${{github.actor}}
 on:
   push:
     branches:
-      - main
+      - lab9-mm
 
 jobs:
   build:
