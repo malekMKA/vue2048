@@ -1,5 +1,4 @@
 name: vue
-run-name: ${{github.actor}}
 on:
   push:
     branches:
