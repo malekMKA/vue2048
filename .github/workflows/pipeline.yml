@@ -13,7 +13,9 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 8 * * 1'
-
+env:
+  AZURE_TOKEN_QA_: ${{ secrets.TOKEN_QA}}
+  AZURE_TOKEN_PROD_: ${{ secrets.TOKEN_PROD}}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -52,4 +54,35 @@ jobs:
         run: npm run lint && npm run type-check
       - name: unit tests
         run: npm test
-
+  deploy-QA:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'workflow_dispatch' 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download production artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: lab9-mm-artifact
+          path: dist
+      - name: Installing SWA CLI
+        run: pnpm install -g @azure/static-web-apps-cli
+      - name: Deploy to QA
+        run: swa deploy -n stapp-vue-qa ./dist -d $AZURE_TOKEN_QA
+  deploy-PROD:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'workflow_dispatch' 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download production artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: lab9-mm-artifact
+          path: dist
+      - name: Installing SWA CLI
+        run: pnpm install -g @azure/static-web-apps-cli
+      - name: Deploy to PROD
+        run: swa deploy -n stapp-vue-prod ./dist -d $AZURE_TOKEN_PROD
