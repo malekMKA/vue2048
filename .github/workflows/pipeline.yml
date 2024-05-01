@@ -1,6 +1,15 @@
 name: vue
 on:
   workflow_dispatch:
+    inputs:
+      run-static-analysis:
+        description: 'Run static analysis (linting and type checking)?'
+        default: 'true'
+        required: false
+      run-tests:
+        description: 'Run unit tests?'
+        default: 'true'
+        required: false
   push:
     branches:
       - lab9-mm
