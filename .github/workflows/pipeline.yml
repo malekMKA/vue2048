@@ -67,7 +67,7 @@ jobs:
           name: lab9-mm-artifact
           path: dist
       - name: Installing SWA CLI
-        run: pnpm install -g @azure/static-web-apps-cli
+        run: npm install -g @azure/static-web-apps-cli
       - name: Deploy to QA
         run: swa deploy -n stapp-vue-qa ./dist -d $AZURE_TOKEN_QA
   deploy-PROD:
@@ -83,6 +83,6 @@ jobs:
           name: lab9-mm-artifact
           path: dist
       - name: Installing SWA CLI
-        run: pnpm install -g @azure/static-web-apps-cli
+        run: npm install -g @azure/static-web-apps-cli
       - name: Deploy to PROD
         run: swa deploy -n stapp-vue-prod ./dist -d $AZURE_TOKEN_PROD
