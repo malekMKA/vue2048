@@ -72,7 +72,7 @@ jobs:
         run: swa deploy -n stapp-vue-qa ./dist -d $AZURE_TOKEN_QA
   deploy-PROD:
     runs-on: ubuntu-latest
-    needs: build
+    needs: deploy-QA
     if: github.event_name == 'workflow_dispatch' 
     steps:
       - name: Checkout
