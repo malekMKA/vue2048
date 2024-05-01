@@ -29,15 +29,30 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
+      - name: Set Retention Days
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "::set-output name=retention_days::7"
+          else
+            echo "::set-output name=retention_days::1"
+          fi
       - name: Build
         run: npm run build
-      - name: Archive production artifacts
+      - name: Archive artifacts on main
         uses: actions/upload-artifact@v4
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
         with:
           name: lab9-mm-artifact
           path: dist
+          retention-days: 7
+      - name: Archive artifacts 
+        uses: actions/upload-artifact@v4
+        if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
+        with:
+          name: lab9-mm-artifact
+          path: dist
+          retention-days: 1
+         
   test:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
