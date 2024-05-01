@@ -62,7 +62,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Download production artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: lab9-mm-artifact
           path: dist
@@ -78,7 +78,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Download production artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: lab9-mm-artifact
           path: dist
